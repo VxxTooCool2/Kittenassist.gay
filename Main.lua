@@ -1,4 +1,7 @@
--- Full Credits To UI and Silent Aim (Stefanuk12)
+getgenv().AimlockKey = "q"
+getgenv().UserKey = 'hanime.tv/nhentai.net'; 
+
+
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
 local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/Pi-314Git/CreditsToStefanuk12/main/ModuleF.lua"))()
 Aiming.TeamCheck(false)
@@ -34,12 +37,6 @@ local DaHoodSettings = {
 
 getgenv().DaHoodSettings = DaHoodSettings
 
-UserInputService.InputBegan:Connect(function(Key, GaySkidded)
-    if Key.KeyCode == SilentAimbotKey and not GaySkidded then
-        DaHoodSettings.SilentAim = not DaHoodSettings.SilentAim
-    end
-end)
-
 local SilentPage = UI:addPage("Silent")
 local MainSection = SilentPage:addSection("Main")
 local SettingSection = SilentPage:addSection("Settings")
@@ -48,7 +45,7 @@ local CreditsPage = UI:addPage("Credits")
 local AmongUsSection = CreditsPage:addSection("MADE BY")
 
 MainSection:addToggle("Enable", false, function(bool)
-    Aiming.Enabled = bool
+    DaHoodSettings.SilentAim = bool
 end)
 
 SettingSection:addToggle("FOV Circle", false, function(bool)
@@ -61,10 +58,6 @@ end)
 
 SettingSection:addSlider("FOV Size", 0, 0, 400, function(value)
     Aiming.FOV = value
-end)
-
-SettingSection:addColorPicker("FOV Color", Color3.fromRGB(231, 84, 128), function(color)
-    Aiming.FOVColour = color
 end)
 
 SettingSection:addKeybind("Toggle UI", Enum.KeyCode.RightShift, function()
