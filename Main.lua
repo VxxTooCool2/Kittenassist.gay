@@ -1,12 +1,20 @@
-getgenv().AimlockKey = "q"
-getgenv().UserKey = 'hanime.tv/nhentai.net'; 
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Pi-314Git/Roseware-Library/main/PiModedImGuiUiLibrary.lua"))()
 
+local Window = library:AddWindow("kittenassist.crack v2", {
+    main_color = Color3.fromRGB(10, 10, 10),
+    min_size = Vector2.new(450, 500),
+    toggle_key = Enum.KeyCode.RightShift,
+    can_resize = false,
+})
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
 local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/Pi-314Git/CreditsToStefanuk12/main/ModuleF.lua"))()
+local ESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+ESP:Toggle(false)
+ESP.Tracers = false
+ESP.Names = false
+ESP.Boxes = false
 Aiming.TeamCheck(false)
 Aiming.VisibleCheck = false
-local UI = library.new("Kittenassist.gay")
 -- // Dependencies
 
 -- // Services
@@ -37,46 +45,57 @@ local DaHoodSettings = {
 
 getgenv().DaHoodSettings = DaHoodSettings
 
-local SilentPage = UI:addPage("Silent")
-local MainSection = SilentPage:addSection("Main")
-local SettingSection = SilentPage:addSection("Settings")
+local RCTab = Window:AddTab("Rage Cheats")
+local ALTab = Window:AddTab("Aimlock")
+local ESPTab = Window:AddTab("Esp")
 
-local CreditsPage = UI:addPage("Credits")
-local AmongUsSection = CreditsPage:addSection("MADE BY")
+ESPTab:AddSwitch("Enable ESP", function(bool)
+    ESP:Toggle(bool)
+end)
 
-MainSection:addToggle("Enable", false, function(bool)
+ESPTab:AddSwitch("Enable Tracers", function(bool)
+    ESP.Tracers = bool
+end)
+
+ESPTab:AddSwitch("Enable Names", function(bool)
+    ESP.Names = bool
+end)
+
+ESPTab:AddSwitch("Enable Boxes", function(bool)
+    ESP.Boxes = bool
+end)
+
+ALTab:AddSwitch("Silent Aim", function(bool)
     DaHoodSettings.SilentAim = bool
 end)
 
-SettingSection:addToggle("FOV Circle", false, function(bool)
+ALTab:AddSwitch("Aim Lock", function(bool)
+    DaHoodSettings.AimLock = bool
+end)
+
+ALTab:AddSwitch("FOV Circle", function(bool)
     Aiming.ShowFOV = bool
 end)
 
-SettingSection:addToggle("Visible Check", false, function(bool)
+ALTab:AddSlider("FOV Size", function(value)
+    Aiming.FOV = value
+end, {
+    ["min"] = 0,
+    ["max"] = 400,
+    ["readonly"] = false,
+})
+
+ALTab:AddSlider("Prediction", function(value)
+    DaHoodSettings.Prediction = tonumer("0." .. value)
+end, {
+    ["min"] = 0,
+    ["max"] = 500,
+    ["readonly"] = false,
+})
+
+ALTab:AddSwitch("Visible Check", function(bool)
     Aiming.VisibleCheck = bool
 end)
-
-SettingSection:addSlider("FOV Size", 0, 0, 400, function(value)
-    Aiming.FOV = value
-end)
-
-SettingSection:addKeybind("Toggle UI", Enum.KeyCode.RightShift, function()
-    UI:toggle()
-end)
-
-AmongUsSection:addButton("Thanks to Stefanuk12 for module", function()
-    
-end)
-
-AmongUsSection:addButton("Thanks to Denosaur for ui", function()
-    
-end)
-
-AmongUsSection:addButton("pi#1330 ui collapse with silent aim yes", function()
-    
-end)
-
-UI:SelectPage(UI.pages[1], true)
 
 -- // Overwrite to account downed
 function Aiming.Check()
